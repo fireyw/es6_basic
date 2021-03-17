@@ -121,6 +121,22 @@
         * 중복선언을 막을 수 있음
         * const내의 객체는 let과 같이 변경 가능
 
+    * var 사용 시 클로저 관련 단골문제
+        * var i 가 블록단위가 아니라 함수단위로 i가 3 3 3 3 으로 찍히는 내용 즉시실행함수로 변경
+        * for문 var i -> let i 로 바꾸면 전혀문제가안됨
+    ~~~
+    function countSeconds(howMany) {
+        for (var i = 1; i <= howMany; i++) {
+            (function(currentI){
+                setTimeout(function () {
+                    console.log(currentI)
+                }, currentI * 1000);
+            }(i))
+        }
+    }
+    
+    countSeconds(3);
+    ~~~
     
 
 
