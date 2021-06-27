@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>7. 비동기</title>
+    <script src="js/partial.js"></script>
+</head>
+<body>
+
+<script>
+    function square(a) {
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                return resolve(a * a);
+            }, 500)
+        })
+    }
+
+    square(10)
+        .then(square)
+        .then(square)
+        .then(function (res) {
+            console.log(res);
+        });
+    _.go(
+        square(10),
+        square,
+        square,
+        console.log
+    )
+
+    var list = [2, 3, 4];
+    new Promise(function (resolve) {
+        (function recur(res) {
+            if (res.length == list.length) {
+                return resolve(res);
+            }
+            square(list[res.length]).then(function (val) {
+              res.push(val);
+              recur(res);
+            });
+        })([]) //빈 배열로 처음 recur 실행
+    }).then(console.log);
+
+    _.go(
+            list,
+            _.map(square),
+            _.map(square),
+            console.log
+    )
+
+</script>
+
+</body>
+</html>
