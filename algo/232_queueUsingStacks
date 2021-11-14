@@ -1,0 +1,68 @@
+var MyQueue = function () {
+    this.stack1 = [];
+    this.stack2 = [];
+};
+
+/**
+ * @param {number} x
+ * @return {void}
+ */
+MyQueue.prototype.push = function (x) {
+    this.stack1.push(x);
+    while(this.stack1.length !=0){
+        var temp1 = this.stack1.pop();
+        this.stack2.push(temp1);
+    }
+    while(this.stack2.length !=0){
+        this.stack1.push(this.stack2.pop());
+    }
+};
+
+/**
+ * @return {number}
+ */
+MyQueue.prototype.pop = function () {
+    while(this.stack1.length!=0){
+        var temp1 = this.stack1.pop();
+        this.stack2.push(temp1);
+    }
+    var popVal=this.stack2.pop();
+    while(this.stack2.length!=0){
+        this.stack1.push(this.stack2.pop());
+    }
+    return popVal;
+};
+
+/**
+ * @return {number}
+ */
+MyQueue.prototype.peek = function () {
+    while(this.stack1.length!=0){
+        var temp1 = this.stack1.pop();
+        this.stack2.push(temp1);
+    }
+    var popVal=this.stack2.pop();
+    this.stack1.push(popVal)
+    while(this.stack2.length!=0){
+        this.stack1.push(this.stack2.pop());
+    }
+    return popVal
+};
+
+/**
+ * @return {boolean}
+ */
+MyQueue.prototype.empty = function () {
+   return this.stack1.length ===0 ? true : false;
+};
+
+var myQueue = new MyQueue();
+myQueue.push(1); // queue is: [1]
+myQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)
+
+console.log(myQueue);
+console.log(myQueue.peek());; // queue is: [1]
+
+console.log(myQueue.pop());
+console.log(myQueue.empty());1
+console.log(myQueue);
